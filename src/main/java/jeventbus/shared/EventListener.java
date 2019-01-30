@@ -1,4 +1,4 @@
-package jeventbus.service;
+package jeventbus.shared;
 
 import java.io.Serializable;
 

@@ -1,7 +1,9 @@
 package jeventbus.core;
 
-import jeventbus.service.EventListener;
-import jeventbus.service.EventType;
+import jeventbus.shared.EventListener;
+import jeventbus.shared.EventSource;
+import jeventbus.shared.EventType;
+import jeventbus.shared.Parameter;
 
 public class Event {
 

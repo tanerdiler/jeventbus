@@ -1,6 +1,6 @@
 package jeventbus.core;
 
-import jeventbus.service.EventType;
+import jeventbus.shared.EventType;
 
 import java.util.HashMap;
 import java.util.Map;

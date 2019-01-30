@@ -1,4 +1,4 @@
-import jeventbus.service.EventType;
+import jeventbus.shared.EventType;
 
 public enum TestEventType implements EventType {
 	VISITORLOGON("onVisitorLogon");

@@ -1,10 +1,15 @@
 package jeventbus.service;
 
-import jeventbus.core.EventSource;
+import jeventbus.shared.EventSource;
 import jeventbus.core.Events;
-import jeventbus.core.Parameter;
+import jeventbus.shared.EventType;
+import jeventbus.shared.Parameter;
 
 public class EventService {
+
+    public static EventService get() {
+        return new EventService();
+    }
 
     public void register(EventBuilder eventBuilder) {
         eventBuilder.buildAndRegister();

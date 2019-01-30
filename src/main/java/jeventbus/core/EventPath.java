@@ -1,6 +1,8 @@
 package jeventbus.core;
 
-import jeventbus.service.EventListener;
+import jeventbus.shared.EventListener;
+import jeventbus.shared.EventSource;
+import jeventbus.shared.ListenerTriggeringBreakerException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package jeventbus.core;
+package jeventbus.shared;
 
 public class ListenerTriggeringBreakerException extends RuntimeException {
 

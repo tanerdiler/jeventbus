@@ -3,6 +3,8 @@ package jeventbus.service;
 import jeventbus.core.Event;
 import jeventbus.core.EventPath;
 import jeventbus.core.Events;
+import jeventbus.shared.EventListener;
+import jeventbus.shared.EventType;
 
 public class EventBuilder {
 

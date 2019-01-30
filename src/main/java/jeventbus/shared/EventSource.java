@@ -1,6 +1,4 @@
-package jeventbus.core;
-
-import jeventbus.service.EventType;
+package jeventbus.shared;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -1,5 +1,8 @@
 import jeventbus.core.*;
-import jeventbus.service.EventListener;
+import jeventbus.shared.EventListener;
+import jeventbus.shared.EventSource;
+import jeventbus.shared.ListenerTriggeringBreakerException;
+import jeventbus.shared.Parameter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;

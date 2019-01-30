@@ -1,4 +1,4 @@
-package jeventbus.service;
+package jeventbus.shared;
 
 public interface EventType {
 
