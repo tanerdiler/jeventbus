@@ -6,6 +6,7 @@ import jeventbus.shared.ListenerTriggeringBreakerException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -22,7 +23,7 @@ public class EventPathListenerNode implements EventPathNode {
     public void execute(EventSource source, String methodName) {
         Class<?> clazz = listener.getClass();
         try {
-            Method method = clazz.getMethod(methodName, EventSource.class);
+            Method method = clazz.getDeclaredMethod(methodName, EventSource.class);
             method.setAccessible(true);
             method.invoke(listener, source);
         }
@@ -42,4 +43,5 @@ public class EventPathListenerNode implements EventPathNode {
     public static EventPathListenerNode wrap(EventListener listener) {
         return new EventPathListenerNode(listener);
     }
+
 }

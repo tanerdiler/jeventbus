@@ -18,4 +18,9 @@ public class Parameter implements Serializable {
     public static final <T> Parameter by(String name, Object value) {
         return new Parameter(name, value);
     }
+
+    @Override
+    public String toString() {
+        return String.format("{ name:%s, value:%s}", name, value == null ? "null" : value.toString());
+    }
 }

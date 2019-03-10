@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class EventSource implements Serializable {
 
@@ -57,5 +58,14 @@ public class EventSource implements Serializable {
     public EventSource add(Parameter parameter) {
         params.put(parameter.name, parameter);
         return this;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder strb = new StringBuilder();
+        strb.append("{ eventType:%s , params: [");
+        strb.append(params.values().stream().map(p -> p.toString()).collect(Collectors.joining(", ")));
+        strb.append("]}");
+        return strb.toString();
     }
 }
