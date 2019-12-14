@@ -48,16 +48,19 @@ public class EventViaCoreTest {
     @Test
     public void triggerListenersOnMainPath() {
         final AtomicInteger counter = new AtomicInteger(0);
+        class Counter1 implements EventListener {
+            public void onVisitorLogon(EventSource source) {
+                counter.getAndIncrement();
+            }
+        }
 
-        Events.event(TestEventType.VISITORLOGON).add(new EventListener() {
+        class Counter2 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        }).fire(Parameter.by("name", "tanerdiler"));
+        }
+
+        Events.event(TestEventType.VISITORLOGON).add(new Counter1()).add(new Counter2()).fire(Parameter.by("name", "tanerdiler"));
         assertEquals(2, counter.get());
     }
 
@@ -65,23 +68,36 @@ public class EventViaCoreTest {
     public void triggerSubPathListenersToo() {
         final AtomicInteger counter = new AtomicInteger(0);
 
-        Events.event(TestEventType.VISITORLOGON).add(new EventListener() {
+        class Counter1 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).add(EventPath.subPath().add(new EventListener() {
+        }
+
+        class Counter2 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).add(new EventListener() {
+        }
+        class Counter3 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        })).add(new EventListener() {
+        }
+
+        class Counter4 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).fire(Parameter.by("name", "tanerdiler"));
+        }
+
+        Events.event(TestEventType.VISITORLOGON)
+              .add(new Counter1())
+              .add(EventPath.subPath()
+                            .add(new Counter2())
+                            .add(new Counter3()))
+              .add(new Counter4())
+              .fire(Parameter.by("name", "tanerdiler"));
 
         assertEquals(4, counter.get());
     }
@@ -89,24 +105,36 @@ public class EventViaCoreTest {
     @Test
     public void dontEffectMainPathExecutionWhenTriggerBreakerThrownBySubPathNode() {
         final AtomicInteger counter = new AtomicInteger(0);
-
-        Events.event(TestEventType.VISITORLOGON).add(new EventListener() {
+        class Counter1 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).add(EventPath.subPath().add(new EventListener() {
+        }
+
+        class Counter2 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 throw new ListenerTriggeringBreakerException("Break subpath triggering");
             }
-        }).add(new EventListener() {
+        }
+
+        class Counter3 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        })).add(new EventListener() {
+        }
+
+        class Counter4 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).fire(Parameter.by("name", "tanerdiler"));
+        }
+        Events.event(TestEventType.VISITORLOGON)
+              .add(new Counter1())
+              .add(EventPath.subPath()
+                            .add(new Counter2())
+                            .add(new Counter3()))
+              .add(new Counter4())
+              .fire(Parameter.by("name", "tanerdiler"));
 
         assertEquals(2, counter.get());
     }

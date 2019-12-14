@@ -56,7 +56,8 @@ public class EventViaServiceTest {
     public void triggerListenersOnMainPath() {
         final AtomicInteger counter = new AtomicInteger(0);
 
-        EventBuilder eventBuilder = EventBuilder.aNew(TestEventType.VISITORLOGON).add(new EventListener() {
+        EventBuilder eventBuilder = EventBuilder.aNew(TestEventType.VISITORLOGON)
+                                                .add(new EventListener() {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
@@ -108,19 +109,28 @@ public class EventViaServiceTest {
     public void dontEffectMainPathExecutionWhenTriggerBreakerThrownBySubPathNode() {
         final AtomicInteger counter = new AtomicInteger(0);
 
-        EventBuilder eventBuilder = EventBuilder.aNew(TestEventType.VISITORLOGON).add(new EventListener() {
+        class Counter1 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        }).add(EventPath.subPath().add(new EventListener() {
+        }
+
+        class Counter2 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 throw new ListenerTriggeringBreakerException("Break subpath triggering");
             }
-        })).add(new EventListener() {
+        }
+
+        class Counter3 implements EventListener {
             public void onVisitorLogon(EventSource source) {
                 counter.getAndIncrement();
             }
-        });
+        }
+
+        EventBuilder eventBuilder = EventBuilder.aNew(TestEventType.VISITORLOGON)
+                                                .add(new Counter1())
+                                                .add(EventPath.subPath().add(new Counter2()))
+                                                .add(new Counter3());
 
         EventService eventService = new EventService();
         eventService.register(eventBuilder);

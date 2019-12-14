@@ -13,6 +13,8 @@ public class EventSource implements Serializable {
 
     private final Map<String, Parameter> params = new HashMap<>();
 
+    private final EventHeaders headers = new EventHeaders();
+
     private final EventType type;
 
     private EventSource(EventType type, Parameter... parameters) {
@@ -67,5 +69,9 @@ public class EventSource implements Serializable {
         strb.append(params.values().stream().map(p -> p.toString()).collect(Collectors.joining(", ")));
         strb.append("]}");
         return strb.toString();
+    }
+
+    public EventHeaders getHeaders() {
+        return headers;
     }
 }
