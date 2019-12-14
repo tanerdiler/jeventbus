@@ -4,6 +4,6 @@ import jeventbus.shared.EventSource;
 
 public interface EventPathNode {
 
-    public void execute(EventSource source, String methodName);
+    void execute(EventSource source, String methodName);
 }
 

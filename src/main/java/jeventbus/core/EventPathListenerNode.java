@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static jeventbus.shared.EventHeaderNames.HEADER_FAILED_LISTENERS;
 
 public class EventPathListenerNode implements EventPathNode {
 
@@ -38,6 +39,10 @@ public class EventPathListenerNode implements EventPathNode {
         catch (Exception e) {
             throw new RuntimeException(format(EXCEPTION_ON_TRIGGERING_METHOD, methodName, listener.getClass().getName()), e);
         }
+    }
+
+    public EventListener getListener() {
+        return this.listener;
     }
 
     public static EventPathListenerNode wrap(EventListener listener) {

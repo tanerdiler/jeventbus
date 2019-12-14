@@ -3,7 +3,8 @@ package jeventbus;
 import jeventbus.shared.EventType;
 
 public enum TestEventType implements EventType {
-	VISITORLOGON("onVisitorLogon");
+	VISITORLOGON("onVisitorLogon"),
+	USERCREATED("onUserCreated");
 
 	private String method;
 	
