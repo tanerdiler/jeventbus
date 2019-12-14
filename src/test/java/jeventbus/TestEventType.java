@@ -1,3 +1,5 @@
+package jeventbus;
+
 import jeventbus.shared.EventType;
 
 public enum TestEventType implements EventType {

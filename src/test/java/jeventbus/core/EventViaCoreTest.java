@@ -1,15 +1,20 @@
+package jeventbus.core;
+
+import jeventbus.TestEventType;
 import jeventbus.core.*;
 import jeventbus.shared.EventListener;
 import jeventbus.shared.EventSource;
 import jeventbus.shared.ListenerTriggeringBreakerException;
 import jeventbus.shared.Parameter;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class EventTestViaCore {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public class EventViaCoreTest {
 
     private static final AtomicInteger counter = new AtomicInteger();
 
@@ -28,7 +33,7 @@ public class EventTestViaCore {
 
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         Events.reset();
     }
@@ -36,8 +41,8 @@ public class EventTestViaCore {
     @Test
     public void checkListenerTriggered() {
         Events.event(TestEventType.VISITORLOGON).add(new TestListener()).fire(Parameter.by("name", "tanerdiler"));
-        Assert.assertEquals(1, counter.get());
-        Assert.assertEquals(1, paramCounter.get());
+        assertEquals(1, counter.get());
+        assertEquals(1, paramCounter.get());
     }
 
     @Test
@@ -53,7 +58,7 @@ public class EventTestViaCore {
                 counter.getAndIncrement();
             }
         }).fire(Parameter.by("name", "tanerdiler"));
-        Assert.assertEquals(2, counter.get());
+        assertEquals(2, counter.get());
     }
 
     @Test
@@ -78,7 +83,7 @@ public class EventTestViaCore {
             }
         }).fire(Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(4, counter.get());
+        assertEquals(4, counter.get());
     }
 
     @Test
@@ -103,7 +108,7 @@ public class EventTestViaCore {
             }
         }).fire(Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(2, counter.get());
+        assertEquals(2, counter.get());
     }
 
     @Test
@@ -128,27 +133,28 @@ public class EventTestViaCore {
             }
         }).fire(Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(0, counter.get());
+        assertEquals(0, counter.get());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void breakTheEventTriggeringAfterRuntimeExceptionThrown() {
-        final AtomicInteger counter = new AtomicInteger(0);
-        Events.event(TestEventType.VISITORLOGON).add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        }).add(EventPath.subPath().add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        }).add(new EventListener() {
+        assertThrows(RuntimeException.class, ()->{
+            final AtomicInteger counter = new AtomicInteger(0);
+            Events.event(TestEventType.VISITORLOGON).add(new EventListener() {
+                public void onVisitorLogon(EventSource source) {
+                    counter.getAndIncrement();
+                }
+            }).add(EventPath.subPath().add(new EventListener() {
+                public void onVisitorLogon(EventSource source) {
+                    counter.getAndIncrement();
+                }
+            }).add(new EventListener() {
 
-        })).add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        }).fire(Parameter.by("name", "tanerdiler"));
+            })).add(new EventListener() {
+                public void onVisitorLogon(EventSource source) {
+                    counter.getAndIncrement();
+                }
+            }).fire(Parameter.by("name", "tanerdiler"));});
     }
 
 }

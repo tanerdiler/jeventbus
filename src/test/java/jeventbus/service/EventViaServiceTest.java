@@ -1,3 +1,6 @@
+package jeventbus.service;
+
+import jeventbus.TestEventType;
 import jeventbus.core.*;
 import jeventbus.service.EventBuilder;
 import jeventbus.shared.EventListener;
@@ -5,13 +8,15 @@ import jeventbus.service.EventService;
 import jeventbus.shared.EventSource;
 import jeventbus.shared.ListenerTriggeringBreakerException;
 import jeventbus.shared.Parameter;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class EventTestViaService {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public class EventViaServiceTest {
 
     private static final AtomicInteger counter = new AtomicInteger();
 
@@ -30,7 +35,7 @@ public class EventTestViaService {
 
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         Events.reset();
     }
@@ -43,8 +48,8 @@ public class EventTestViaService {
         eventService.register(eventBuilder);
         eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(1, counter.get());
-        Assert.assertEquals(1, paramCounter.get());
+        assertEquals(1, counter.get());
+        assertEquals(1, paramCounter.get());
     }
 
     @Test
@@ -65,7 +70,7 @@ public class EventTestViaService {
         eventService.register(eventBuilder);
         eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(2, counter.get());
+        assertEquals(2, counter.get());
     }
 
     @Test
@@ -96,7 +101,7 @@ public class EventTestViaService {
         eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));
 
 
-        Assert.assertEquals(4, counter.get());
+        assertEquals(4, counter.get());
     }
 
     @Test
@@ -121,7 +126,7 @@ public class EventTestViaService {
         eventService.register(eventBuilder);
         eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(2, counter.get());
+        assertEquals(2, counter.get());
     }
 
     @Test
@@ -150,33 +155,32 @@ public class EventTestViaService {
         eventService.register(eventBuilder);
         eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));
 
-        Assert.assertEquals(0, counter.get());
+        assertEquals(0, counter.get());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void breakTheEventTriggeringAfterRuntimeExceptionThrown() {
-        final AtomicInteger counter = new AtomicInteger(0);
+        assertThrows(RuntimeException.class, ()->{final AtomicInteger counter = new AtomicInteger(0);
 
-        EventBuilder eventBuilder = EventBuilder.aNew(TestEventType.VISITORLOGON).add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        }).add(EventPath.subPath().add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        })).add(new EventListener() {
+            EventBuilder eventBuilder = EventBuilder.aNew(TestEventType.VISITORLOGON).add(new EventListener() {
+                public void onVisitorLogon(EventSource source) {
+                    counter.getAndIncrement();
+                }
+            }).add(EventPath.subPath().add(new EventListener() {
+                public void onVisitorLogon(EventSource source) {
+                    counter.getAndIncrement();
+                }
+            })).add(new EventListener() {
 
-        }).add(new EventListener() {
-            public void onVisitorLogon(EventSource source) {
-                counter.getAndIncrement();
-            }
-        });
+            }).add(new EventListener() {
+                public void onVisitorLogon(EventSource source) {
+                    counter.getAndIncrement();
+                }
+            });
 
-        EventService eventService = new EventService();
-        eventService.register(eventBuilder);
-        eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));
-
+            EventService eventService = new EventService();
+            eventService.register(eventBuilder);
+            eventService.fire(TestEventType.VISITORLOGON, Parameter.by("name", "tanerdiler"));});
     }
 
 }
