@@ -114,4 +114,48 @@ public class EventHeaderTest {
         source.getHeaders().hasValue(EventHeaderNames.HEADER_STOPPER_LISTENERS, "jeventbus.core.EventHeaderTest$2Listener2");
     }
 
+    @Test
+    public void should_add_headers_toString() {
+        final AtomicBoolean exceptionFired = new AtomicBoolean(false);
+        final AtomicInteger counter1 = new AtomicInteger(0);
+        final AtomicInteger counter2 = new AtomicInteger(0);
+        final AtomicInteger counter3 = new AtomicInteger(0);
+        Events.reset();
+        class Listener1 implements EventListener {
+            public void onUserCreated(EventSource source) {
+                counter1.incrementAndGet();
+            }
+        }
+
+        class Listener2 implements EventListener {
+            public void onUserCreated(EventSource source) {
+                if (exceptionFired.compareAndSet(false,true)) {
+                    throw new IllegalStateException();
+                }
+                counter2.incrementAndGet();
+            }
+        }
+
+        class Listener3 implements EventListener {
+            public void onUserCreated(EventSource source) {
+                counter3.incrementAndGet();
+            }
+        }
+
+        Event event = Events.event(TestEventType.USERCREATED)
+                            .add(new Listener1()).add(new Listener2()).add(new Listener3());
+
+
+        EventSource source = EventSource.aNew(TestEventType.USERCREATED, Parameter.by("name", "tanerdiler"));
+        try {
+            event.fire(source);
+        } catch(Exception ex) {
+        }
+
+        assertEquals("{ eventType:USERCREATED , "
+                             + "params: [{name:name, value:tanerdiler}], "
+                             + "headers: [{name:succeeded-listeners, value:jeventbus.core.EventHeaderTest$3Listener1}, "
+                             + "{name:failed-listeners, value:jeventbus.core.EventHeaderTest$3Listener2}]}", source.toString());
+    }
+
 }
