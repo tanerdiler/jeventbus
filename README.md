@@ -19,3 +19,16 @@ JEventbus is ready to use in Java Module System.
 - You have to define events as enum
 - You have to register listeners to events
 - You have to relate listeners to events while initializing application
+
+## CODE SAMPLES
+```java
+Events.event(PUBLISH_LISTING)
+      .add(getBean(FeedLogger.class))
+      .add(getBean(AuditLogger.class))
+      .add(getBean(ListingBadgeService.class))
+      .add(listingCacheManager)
+      .add(getBean(PriceHistoryUpdater.class))
+      .add(getBean(PriceChangeDetector.class))
+      .add(getBean(ListingCardCacheLoader.class))
+      .add(getBean(ListingDetailCacheLoader.class));
+```
