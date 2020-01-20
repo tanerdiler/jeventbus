@@ -1,4 +1,4 @@
-# EVENTBUS
+# JEVENTBUS
 
 JEventbus is a module that allows you to implement Event Driven Design approach to your classical code base.
 JEventbus is calling specified methods of already registered listener classes by using Java Reflection.
