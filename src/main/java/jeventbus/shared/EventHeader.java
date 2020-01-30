@@ -1,19 +1,20 @@
 package jeventbus.shared;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EventHeader {
 
     private String name;
 
-    private String value;
-
-    private List<String> values;
+    private Set<String> values = new HashSet<>();
 
     public EventHeader(String name, String value) {
         this.name = name;
-        this.value = value;
+        values.add(value);
     }
 
     public String getName() {
@@ -21,29 +22,23 @@ public class EventHeader {
     }
 
     public EventHeader addValue(String newValue) {
-
-        if (this.value == null) {
-            this.value = newValue;
-        }
-        else {
-            if (values == null) {
-                values = new ArrayList();
-                values.add(this.value);
-                this.value = null;
-            }
-            values.add(newValue);
-        }
+        values.add(newValue);
         return this;
     }
 
     public boolean hasValue(String value) {
+        return values.contains(value);
+    }
 
-        if (this.value != null) {
-            return this.value.equals(value);
-        } else if (values != null) {
-            return this.values.contains(value);
+    @Override
+    public String toString() {
+        if(values.size() == 0) {
+            return null;
         }
-
-        return false;
+        else if(values.size()==1) {
+            return values.iterator().next();
+        } else {
+            return values.stream().collect(Collectors.joining(","));
+        }
     }
 }

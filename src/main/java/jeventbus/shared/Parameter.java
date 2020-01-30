@@ -21,6 +21,6 @@ public class Parameter implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("{ name:%s, value:%s}", name, value == null ? "null" : value.toString());
+        return String.format("{name:%s, value:%s}", name, value == null ? "null" : value.toString());
     }
 }

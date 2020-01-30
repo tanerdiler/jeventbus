@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 public class EventSource implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,8 +69,8 @@ public class EventSource implements Serializable {
         StringBuilder strb = new StringBuilder();
         strb.append("{ eventType:%s , params: [");
         strb.append(params.values().stream().map(p -> p.toString()).collect(Collectors.joining(", ")));
-        strb.append("]}");
-        return strb.toString();
+        strb.append("], headers: %s}");
+        return format(strb.toString(), type, headers);
     }
 
     public EventHeaders getHeaders() {
