@@ -5,10 +5,16 @@
     <groupId>jeventbus</groupId>
     <artifactId>jeventbus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+    <modules>
+        <module>core</module>
+        <module>integration-kafka</module>
+        <module>integration-rabbitmq</module>
+        <module>streaming</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.9</java.version>
+        <java.version>1.8</java.version>
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
         <junit.platform.version>1.2.0</junit.platform.version>
     </properties>

@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toMap;
 
 public class EventSource implements Serializable {
 
@@ -51,6 +52,10 @@ public class EventSource implements Serializable {
 
     public static final EventSource aNew(EventType type, Parameter... parameters) {
         return new EventSource(type, parameters);
+    }
+
+    public Map<String, Object> getMap() {
+        return params.values().stream().filter(p -> p != null && p.value != null).collect(toMap(p -> p.name, p -> p.value));
     }
 
     public EventSource clone() {
