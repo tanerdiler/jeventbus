@@ -1,7 +1,7 @@
 package jeventbus.streaming;
 
 public class EventSourceKeys {
-
+    public static final String TRACE_ID = "TRACE_ID";
     public static final String ACTOR_ID = "ACTOR_ID";
     public static final String ACTOR_TYPE = "ACTOR_TYPE";
     public static final String ENTITY_ID = "ENTITY_ID";

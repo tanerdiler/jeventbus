@@ -10,7 +10,7 @@
         <module>core</module>
         <module>integration-kafka</module>
         <module>integration-rabbitmq</module>
-        <module>streaming</module>
+        <module>enterprise</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

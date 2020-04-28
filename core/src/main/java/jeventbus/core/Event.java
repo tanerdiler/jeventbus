@@ -37,6 +37,7 @@ public class Event {
     }
 
     public EventSource fire(EventSource source) {
+        source.generateSpanIdIfAbsent();
         mainPath.execute(source, type.getMethodName());
         return source;
     }
