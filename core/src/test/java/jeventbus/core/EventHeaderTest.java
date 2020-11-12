@@ -1,10 +1,10 @@
 package jeventbus.core;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import jeventbus.TestEventType;
 import jeventbus.service.EventBuilder;
 import jeventbus.service.EventService;
 import jeventbus.shared.*;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;

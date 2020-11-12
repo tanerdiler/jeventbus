@@ -2,3 +2,8 @@ target
 .idea
 **/.DS_Store
 .DS_Store
+modules
+lib
+out
+zk-single-kafka-single
+**/*.iml

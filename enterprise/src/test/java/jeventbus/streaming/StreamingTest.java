@@ -33,7 +33,7 @@ public class StreamingTest {
         }
     }
 
-    public enum MyEventChannel implements EventChannel<MyEventChannel> {
+    public enum MyEventChannel implements EventChannel {
         WEB, POST, ATM;
 
         @Override
