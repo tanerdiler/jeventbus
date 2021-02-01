@@ -5,6 +5,13 @@ JEventbus is calling specified methods of already registered jeventbus.rabbitmq.
 
 JEventbus is ready to use in Java Module System.
 
+## FEATURES
+
+- Ready to use in Java Module System
+- Kafka integration
+- Enterprise edition to add capability like having well structured Event Channel, Event Reason, Actor informations
+- Core edition to manage event in a single JVM
+
 ## PROS
 
 - Provides Single Responsbility Principle automatically
@@ -13,6 +20,8 @@ JEventbus is ready to use in Java Module System.
 - Allows you to apply Domain Driven Design to monolith application
 - Allows you to be prepared for migration from monolith application to microservice architecture
 - Ready to use on Java Module System
+- Has Kafka integration
+- Has enterprise edition to manage Event Channeli Event Reason, Actor
 
 ## CONS
 
