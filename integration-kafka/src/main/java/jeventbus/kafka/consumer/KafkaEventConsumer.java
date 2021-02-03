@@ -20,16 +20,23 @@ import static java.util.Objects.nonNull;
 public class KafkaEventConsumer {
 
     private static final Long POLLING_DELAY = 100L;
+    private final String host;
+    private String groupId;
 
-    public void consume() {
+    public KafkaEventConsumer(String host, String groupId) {
+        this.host = host;
+        this.groupId = groupId;
+    }
+
+    public void consume(String... topics) {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
-        props.put("group.id", "event-consumer");
+        props.put("bootstrap.servers", host);
+        props.put("group.id", groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaEventDeserializer.class.getName());
 
         KafkaConsumer<String, EventMessage> consumer = new KafkaConsumer(props);
-        consumer.subscribe(Arrays.asList("user-tracking"));
+        consumer.subscribe(Arrays.asList(topics));
         while(true) {
             ConsumerRecords<String, EventMessage> records = consumer.poll(ofMillis(POLLING_DELAY));
             for (ConsumerRecord<String, EventMessage> record : records) {
