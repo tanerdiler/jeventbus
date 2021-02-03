@@ -7,7 +7,4 @@ module jeventbus.rabbitmq {
     requires jeventbus.enterprise;
 
     requires com.rabbitmq.client;
-    requires org.apache.logging.log4j;
-    requires org.apache.logging.log4j.core;
-    requires org.apache.logging.log4j.slf4j;
 }

@@ -27,10 +27,10 @@ public class EventProducer {
 
 
 
-        KafkaEventProducer producer = new KafkaEventProducer().connect();
+        KafkaEventProducer producer = new KafkaEventProducer("localhost:9092").connect();
         while (true) {
 
-            producer.produce(message);
+            producer.produce("user-tracking", message);
             try {
                 Thread.sleep(10);
             }

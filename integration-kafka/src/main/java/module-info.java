@@ -12,7 +12,4 @@ module jeventbus.kafka {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.datatype.jdk8;
     requires com.fasterxml.jackson.datatype.jsr310;
-    requires org.apache.logging.log4j;
-    requires org.apache.logging.log4j.core;
-    requires org.apache.logging.log4j.slf4j;
 }

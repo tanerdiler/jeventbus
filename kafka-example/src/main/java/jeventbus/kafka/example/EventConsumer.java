@@ -10,7 +10,7 @@ public class EventConsumer {
 
         Events.event(MyEventType.PAYMENT_RECEIVED).add(bankAccount);
 
-        KafkaEventConsumer consumer = new KafkaEventConsumer();
+        KafkaEventConsumer consumer = new KafkaEventConsumer("localhost:9092", "user-tracking");
         consumer.consume();
     }
 }
