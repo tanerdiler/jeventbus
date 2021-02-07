@@ -20,6 +20,9 @@
         <java.version>11</java.version>
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
         <junit.platform.version>1.2.0</junit.platform.version>
+        <sonar.projectKey>jeventbus:jeventbus</sonar.projectKey>
+        <sonar.organization>tanerdiler-github</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
