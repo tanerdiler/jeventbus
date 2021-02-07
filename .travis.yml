@@ -1,7 +1,7 @@
 sudo: false # faster builds
 language: java
 jdk:
-  - openjdk10
+  - openjdk11
 
 cache:
   directories:
