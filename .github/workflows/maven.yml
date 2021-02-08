@@ -7,7 +7,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   build:
@@ -16,9 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
+    - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Check Quality with SonarScan
+      run: mvn -B sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=tanerdiler-github -Dsonar.login=07e9e61be0269fd370b6ac719f2820c82d73c7bf --file pom.xml
