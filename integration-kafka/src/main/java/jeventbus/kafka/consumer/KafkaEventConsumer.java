@@ -22,10 +22,12 @@ public class KafkaEventConsumer {
     private static final Long POLLING_DELAY = 100L;
     private final String host;
     private String groupId;
+    private OffsetCommitStrategy commitStrategy;
 
-    public KafkaEventConsumer(String host, String groupId) {
+    public KafkaEventConsumer(String host, String groupId, OffsetCommitStrategy commitStrategy) {
         this.host = host;
         this.groupId = groupId;
+        this.commitStrategy = commitStrategy;
     }
 
     public void consume(String... topics) {
@@ -38,6 +40,7 @@ public class KafkaEventConsumer {
         KafkaConsumer<String, EventMessage> consumer = new KafkaConsumer(props);
         consumer.subscribe(Arrays.asList(topics));
         while(true) {
+            commitStrategy.prePoll(consumer);
             ConsumerRecords<String, EventMessage> records = consumer.poll(ofMillis(POLLING_DELAY));
             for (ConsumerRecord<String, EventMessage> record : records) {
                 EventMessage eventMessage = record.value();
@@ -46,6 +49,7 @@ public class KafkaEventConsumer {
                     Events.event(eventMessage.getEvent()).fire(source);
                 }
             }
+            commitStrategy.postProcess(consumer);
         }
     }
 }
