@@ -8,7 +8,7 @@ JEventbus is ready to use in Java Module System.
 ## FEATURES
 
 - Ready to use in Java Module System
-- Kafka integration
+- Apache Kafka integration
 - Enterprise edition to add capability like having well structured Event Channel, Event Reason, Actor informations
 - Core edition to manage event in a single JVM
 
