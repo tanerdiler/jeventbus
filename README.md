@@ -1,4 +1,4 @@
-# JEVENTBUS
+# JEventbus Java - Event Driven Architecture
 
 JEventbus is a module that allows you to implement Event Driven Design approach to your classical code base.
 JEventbus is calling specified methods of already registered jeventbus.rabbitmq.example.listener classes by using Java Reflection.
